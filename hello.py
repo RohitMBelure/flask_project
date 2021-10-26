@@ -1,45 +1,37 @@
-from flask import Flask, jsonify, request
+from flask import Flask, request, make_response, redirect, abort
 app = Flask(__name__)
 
-languages = [{'name':'javascript'}, {'name':'python'}, {'name':'Ruby'}]
+def load_user(dev):
+	return 'dev is a nice guy!!'
 
-@app.route('/', methods=['GET'])
-def test():
-	return jsonify({'message':'It works!'})
+@app.route('/')
+def index():
+	user_agent = request.headers.get('User-Agent')
+	return '<p>Your browser is %s</p>' %user_agent
 
-@app.route('/lang', methods=['GET'])
-def returnAll():
-	return jsonify({'languages':'languages'})
+@app.route('/bad')
+def bad():
+	return '<h1>Bad Request</h1>', 400
 
-@app.route('/lang/<string:name>', methods=['GET'])
-def returnOne(name):
-	langs = [language for language in languages if language['name'] == name]
-	return jsonify({'language':langs[0]})
+@app.route('/response')
+def response():
+	response = make_response('<h1>This document carries a cookie!</h1>')
+	response.set_cookie('answer', '42')
+	return response
 
-@app.route('/lang', methods=['POST'])
-def addOne():
-	language = {'name':request.json['name']}
-	languages.append(language)
-	return jsonify({'languages':languages})
+@app.route('/home')
+def home():
+	return redirect('http://127.0.0.1:5000/')
 
-@app.route('/lang/<string:name>', methods=['PUT'])
-def editOne(name):
-	langs = [language for language in languages if language['name'] == name]
-	langs[0]['name'] = rerquest.json['name']
-	return jsonify({'language':langs[0]})
-
-@app.route('/lang/<string:name>', methods=['DELETE'])
-def removeOne(name):
-	lang = [language for language in languages if language['name'] == name]
-	languages.remove(lang[0])
-	return jsonify({'languages':language})
+@app.route('/user/<id>')
+def get_user(id):
+	user = load_user(id)
+	if not user:
+		abort(404)
+	return '<h1>Hello, %s!</h1>' % user
 
 if __name__ == '__main__':
 	app.run(debug=True)
-
-
-
-
 
 
 
