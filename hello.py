@@ -1,14 +1,16 @@
 from flask import Flask, render_template
 app = Flask(__name__)
 
-@app.route('/index')
-def index():
-    return render_template('index.html')
+@app.route('/mylist')
+def mylist():
+	vehicle=['Bicycle', 'Bike', 'Car', 'Jeep']
+	return render_template('mylist.html', vehicle=vehicle)
 
-@app.route('/user/<name>')
-def user(name):
-    return render_template('user.html', name=name)
-
+@app.route('/mydict')
+def mydict():
+	dict1={'vehicle':'car', 'Brand':'Ford', 'Year':'1964'}
+	return render_template('mydict.html', dict1=dict1)
+	
 if __name__ == '__main__':
     app.run(debug=True)
 	
