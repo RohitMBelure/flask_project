@@ -1,0 +1,21 @@
+{% from "macros.html" import hello %}
+{% from "macros.html" import displaynumbers %}
+<html>
+<head>
+	{% block head %}
+	<title>{% block title %}Macros{% endblock %}</title>
+	{% endblock %}
+</head>
+<body>
+	{% block body %}
+		{{ hello(name) }}
+		<hr>
+		{{ displaynumbers(numbers) }}
+		<hr>
+		{{ displaynumbers(list2) }}
+		<hr>
+		{{ displaynumbers(list3) }}
+	{% endblock %}
+</body>
+</html>
+
