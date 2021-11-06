@@ -1,16 +1,18 @@
 from flask import Flask, render_template
+from flask_bootstrap import Bootstrap
+
 app = Flask(__name__)
 
-@app.route('/mylist')
-def mylist():
-	vehicle=['Bicycle', 'Bike', 'Car', 'Jeep']
-	return render_template('mylist.html', vehicle=vehicle)
+bootstrap = Bootstrap(app)
 
-@app.route('/mydict')
-def mydict():
-	dict1={'vehicle':'car', 'Brand':'Ford', 'Year':'1964'}
-	return render_template('mydict.html', dict1=dict1)
-	
+@app.route('/')
+def index():
+	return render_template('index.html')
+
+@app.route('/user/<name>')
+def user(name):
+	return render_template('user.html', name=name)
+
 if __name__ == '__main__':
-    app.run(debug=True)
-	
+	app.run(debug=True)
+
